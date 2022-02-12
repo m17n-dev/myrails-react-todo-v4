@@ -1,0 +1,81 @@
+version: 0.2
+
+env:
+  parameter-store:
+    RAILS_ENV: /rails/react/v4/rails/environment/name
+    RDS_DB_NAME: /rails/react/v4/production/database/name
+    RDS_USERNAME: /rails/react/v4/production/database/username
+    RDS_PASSWORD: /rails/react/v4/production/database/password
+    RDS_HOSTNAME: /rails/react/v4/production/database/hostname
+    RDS_PORT: /rails/react/v4/production/database/port
+    DOCKERHUB_USER: /rails/react/v4/CodeBuild/dockerLoginUser
+    DOCKERHUB_TOKEN: /rails/react/v4/CodeBuild/dockerAccessToken
+    SMTP_ADDRESS: /rails/react/v4/production/actionMailer/smtpSettings/address
+    SMTP_PORT: /rails/react/v4/production/actionMailer/smtpSettings/port
+    EMAIL_ADDRESS: /rails/react/v4/production/actionMailer/smtpSettings/userName
+    EMAIL_PASSWORD: /rails/react/v4/production/actionMailer/smtpSettings/password
+    DEV_FRONT_DOMAIN: /rails/react/v4/development/front/domain
+    DEV_API_DOMAIN: /rails/react/v4/development/api/domain
+    PROD_FRONT_DOMAIN: /rails/react/v4/production/front/domain
+    PROD_API_DOMAIN: /rails/react/v4/production/api/domain
+  variables:
+    COMPOSE_DOCKER_CLI_BUILD: 1
+    DOCKER_BUILDKIT: 1
+
+phases:
+  install:
+    runtime-versions:
+      docker: 19
+      ruby: 2.6
+  pre_build:
+    commands:
+    - REPOSITORY_API=rails-api-v4
+    - TAG_API=1.0
+    - SERVICE_API=rails-api-v4
+    - REPOSITORY_REACT=front-react-v4
+    - TAG_REACT=1.0
+    - SERVICE_REACT=front-react-v4
+    - TEST_SOURCE_DIRECTORY=backend/spec
+    - REPORT_FILENAME=rspec_reports.xml
+    - aws --version
+    - AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
+    - echo $AWS_ACCOUNT_ID
+    - echo Logging in to Amazon ECR...
+    - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
+    - REPOSITORY_URI_API=$(aws ecr describe-repositories --repository-names $REPOSITORY_API --output text --query "repositories[0].repositoryUri")
+    - IMAGE_API=$REPOSITORY_URI_API:latest
+    - REPOSITORY_URI_REACT=$(aws ecr describe-repositories --repository-names $REPOSITORY_REACT --output text --query "repositories[0].repositoryUri")
+    - IMAGE_REACT=$REPOSITORY_URI_REACT:latest
+    - echo Logging in to Docker Hub...
+    - echo $DOCKERHUB_TOKEN | docker login -u $DOCKERHUB_USER --password-stdin
+    - echo Install rspec...
+    - gem install rspec
+    - gem install rspec_junit_formatter
+  build:
+    commands:
+    - echo Testing...
+    - rspec $TEST_SOURCE_DIRECTORY $REPORT_FILENAME
+    - echo Build started on `date`
+    - echo Building the Docker image...
+    - docker-compose build $REPOSITORY_API
+    - docker-compose build $SERVICE_REACT
+    - docker tag $REPOSITORY_API:$TAG_API $IMAGE_API
+    - docker tag $REPOSITORY_REACT:$TAG_REACT $IMAGE_REACT
+  post_build:
+    commands:
+    - echo Build completed on `date`
+    - echo Pushing the Docker images to Amazon ECR...
+    - docker push $IMAGE_API
+    - docker push $IMAGE_REACT
+    - printf '[{"name":"%s","imageUri":"%s"}]' $REPOSITORY_API $IMAGE_API > backend-imagedefinitions.json
+    - printf '[{"name":"%s","imageUri":"%s"}]' $REPOSITORY_REACT $IMAGE_REACT > frontend-imagedefinitions.json
+reports:
+  rspec_reports:
+    files:
+      - $REPORT_FILENAME
+    base-directory: $TEST_SOURCE_DIRECTORY
+    file-format: JUNITXML
+artifacts:
+  files:
+    - backend-imagedefinitions.json
+    - frontend-imagedefinitions.json

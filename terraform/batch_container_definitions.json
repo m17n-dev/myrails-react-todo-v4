@@ -1,0 +1,46 @@
+[
+  {
+    "name": "alpine",
+    "image": "alpine:latest",
+    "essential": true,
+    "logConfiguration": {
+      "logDriver": "awslogs",
+      "options": {
+        "awslogs-region": "ap-northeast-1",
+        "awslogs-stream-prefix": "batch",
+        "awslogs-group": "/ecs-scheduled-tasks/rails_react_v4"
+      }
+    },
+    "secrets": [
+      {
+        "name": "RDS_DB_NAME",
+        "valueFrom": "/rails/react/v4/production/database/name"
+      },
+      {
+        "name": "RDS_USERNAME",
+        "valueFrom": "/rails/react/v4/production/database/username"
+      },
+      {
+        "name": "RDS_PASSWORD",
+        "valueFrom": "/rails/react/v4/production/database/password"
+      },
+      {
+        "name": "RDS_HOSTNAME",
+        "valueFrom": "/rails/react/v4/production/database/hostname"
+      },
+      {
+        "name": "RDS_PORT",
+        "valueFrom": "/rails/react/v4/production/database/port"
+      },
+      {
+        "name": "DOCKERHUB_USER",
+        "valueFrom": "/rails/react/v4/CodeBuild/dockerLoginUser"
+      },
+      {
+        "name": "DOCKERHUB_TOKEN",
+        "valueFrom": "/rails/react/v4/CodeBuild/dockerAccessToken"
+      }
+    ],
+    "command" : ["/usr/bin/env"]
+  }
+]

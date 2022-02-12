@@ -1,0 +1,88 @@
+[
+    {
+      "name": "rails-api-v4",
+      "image": "414180388823.dkr.ecr.ap-northeast-1.amazonaws.com/rails-api-v4:latest",
+      "essential": true,
+      "command": ["bash", "migration.sh"],
+      "linuxParameters": {
+        "initProcessEnabled": true
+      },
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-region": "ap-northeast-1",
+          "awslogs-stream-prefix": "rails-api-v4",
+          "awslogs-group": "/ecs/rails_react_v4"
+        }
+      },
+      "portMappings": [
+        {
+          "protocol": "tcp",
+          "containerPort": 3000
+        }
+      ],
+      "secrets": [
+        {
+          "name": "RDS_DB_NAME",
+          "valueFrom": "/rails/react/v4/production/database/name"
+        },
+        {
+          "name": "RDS_USERNAME",
+          "valueFrom": "/rails/react/v4/production/database/username"
+        },
+        {
+          "name": "RDS_PASSWORD",
+          "valueFrom": "/rails/react/v4/production/database/password"
+        },
+        {
+          "name": "RDS_HOSTNAME",
+          "valueFrom": "/rails/react/v4/production/database/hostname"
+        },
+        {
+          "name": "RDS_PORT",
+          "valueFrom": "/rails/react/v4/production/database/port"
+        },
+        {
+          "name": "RAILS_ENV",
+          "valueFrom": "/rails/react/v4/rails/environment/name"
+        },
+        {
+          "name": "RAILS_LOG_TO_STDOUT",
+          "valueFrom": "/rails/react/v4/rails/log/stdout"
+        },
+        {
+          "name": "SMTP_ADDRESS",
+          "valueFrom": "/rails/react/v4/production/actionMailer/smtpSettings/address"
+        },
+        {
+          "name": "SMTP_PORT",
+          "valueFrom": "/rails/react/v4/production/actionMailer/smtpSettings/port"
+        },
+        {
+          "name": "EMAIL_ADDRESS",
+          "valueFrom": "/rails/react/v4/production/actionMailer/smtpSettings/userName"
+        },
+        {
+          "name": "EMAIL_PASSWORD",
+          "valueFrom": "/rails/react/v4/production/actionMailer/smtpSettings/password"
+        },
+        {
+          "name": "DEV_FRONT_DOMAIN",
+          "valueFrom": "/rails/react/v4/development/front/domain"
+        },
+        {
+          "name": "DEV_API_DOMAIN",
+          "valueFrom": "/rails/react/v4/development/api/domain"
+        },
+        {
+          "name": "PROD_FRONT_DOMAIN",
+          "valueFrom": "/rails/react/v4/production/front/domain"
+        },
+        {
+          "name": "PROD_API_DOMAIN",
+          "valueFrom": "/rails/react/v4/production/api/domain"
+        }
+      ]
+    }
+  ]
+  

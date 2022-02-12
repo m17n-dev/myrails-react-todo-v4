@@ -1,0 +1,25 @@
+[
+    {
+      "name": "front-react-v4",
+      "image": "414180388823.dkr.ecr.ap-northeast-1.amazonaws.com/front-react-v4:latest",
+      "essential": true,
+      "linuxParameters": {
+        "initProcessEnabled": true
+      },
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-region": "ap-northeast-1",
+          "awslogs-stream-prefix": "front-react-v4",
+          "awslogs-group": "/ecs/rails_react_v4"
+        }
+      },
+      "portMappings": [
+        {
+          "protocol": "tcp",
+          "containerPort": 80
+        }
+      ]
+    }
+  ]
+  
