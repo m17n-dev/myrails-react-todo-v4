@@ -39,7 +39,7 @@ phases:
     - TEST_SOURCE_DIRECTORY=spec
     - TEST_REPORT_DIRECTORY=tmp
     - REPORT_FILENAME=rspec_reports.xml
-    - BUNDLER_VERSION=2.2.6
+    - BUNDLER_VERSION=2.2.26
     - aws --version
     - AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
     - echo $AWS_ACCOUNT_ID
