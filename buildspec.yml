@@ -35,7 +35,7 @@ phases:
     - REPOSITORY_REACT=front-react-v4
     - TAG_REACT=1.0
     - SERVICE_REACT=front-react-v4
-    - TEST_SOURCE_DIRECTORY=backend/spec
+    - TEST_SOURCE_DIRECTORY=spec
     - REPORT_FILENAME=rspec_reports.xml
     - aws --version
     - AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
@@ -54,6 +54,7 @@ phases:
   build:
     commands:
     - echo Testing...
+    - cd backend
     - rspec $TEST_SOURCE_DIRECTORY $REPORT_FILENAME
     - echo Build started on `date`
     - echo Building the Docker image...
