@@ -54,12 +54,12 @@ phases:
     - echo Install rspec...
     - cd $BACKEND_DIRECTORY
     - gem install bundler -v $BUNDLER_VERSION
-    - gem install rspec
-    - gem install rspec_junit_formatter
+    - bundle install
+    - yarn install
   build:
     commands:
     - echo Testing...
-    - bin/rspec --format RspecJunitFormatter --out $TEST_REPORT_DIRECTORY/$REPORT_FILENAME
+    - rspec --format RspecJunitFormatter --out $TEST_REPORT_DIRECTORY/$REPORT_FILENAME
     - cd ..
     - echo Build started on `date`
     - echo Building the Docker image...
