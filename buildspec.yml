@@ -61,7 +61,8 @@ phases:
   build:
     commands:
     - echo Testing...
-    - bin/rspec $TEST_SOURCE_DIRECTORY/* --format RspecJunitFormatter --out $TEST_REPORT_DIRECTORY/$REPORT_FILENAME
+    - cd $BACKEND_DIRECTORY
+    - rspec $TEST_SOURCE_DIRECTORY/* --format RspecJunitFormatter --out $TEST_REPORT_DIRECTORY/$REPORT_FILENAME
     - cd ..
     - echo Build started on `date`
     - echo Building the Docker image...
