@@ -37,6 +37,7 @@ phases:
     - SERVICE_REACT=front-react-v4
     - TEST_SOURCE_DIRECTORY=spec
     - REPORT_FILENAME=rspec_reports.xml
+    - BUNDLER_VERSION=2.2.6
     - aws --version
     - AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
     - echo $AWS_ACCOUNT_ID
@@ -49,6 +50,7 @@ phases:
     - echo Logging in to Docker Hub...
     - echo $DOCKERHUB_TOKEN | docker login -u $DOCKERHUB_USER --password-stdin
     - echo Install rspec...
+    - gem install bundler -v $BUNDLER_VERSION
     - gem install rspec
     - gem install rspec_junit_formatter
   build:
