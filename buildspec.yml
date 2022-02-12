@@ -53,8 +53,8 @@ phases:
     - echo Install rspec...
     - cd $BACKEND_DIRECTORY
     - gem install bundler -v $BUNDLER_VERSION
-    - gem install rspec
-    - gem install rspec_junit_formatter
+    - bundle install
+    - yarn install
   build:
     commands:
     - echo Testing...
