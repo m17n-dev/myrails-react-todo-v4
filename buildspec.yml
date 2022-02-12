@@ -53,13 +53,11 @@ phases:
     - echo $DOCKERHUB_TOKEN | docker login -u $DOCKERHUB_USER --password-stdin
     - echo Install rspec...
     - cd $BACKEND_DIRECTORY
-    - gem install bundler -v $BUNDLER_VERSION
     - gem install rspec
     - gem install rspec_junit_formatter
   build:
     commands:
     - echo Testing...
-    - bundle exec rspec
     - rspec $TEST_SOURCE_DIRECTORY/* --format RspecJunitFormatter --out $TEST_REPORT_DIRECTORY/$REPORT_FILENAME
     - cd ..
     - echo Build started on `date`
