@@ -37,6 +37,7 @@ phases:
     - SERVICE_REACT=front-react-v4
     - BACKEND_DIRECTORY=backend
     - TEST_SOURCE_DIRECTORY=spec
+    - TEST_REPORT_DIRECTORY=tmp
     - REPORT_FILENAME=rspec_reports.xml
     - BUNDLER_VERSION=2.2.6
     - aws --version
@@ -53,12 +54,12 @@ phases:
     - echo Install rspec...
     - cd $BACKEND_DIRECTORY
     - gem install bundler -v $BUNDLER_VERSION
-    - bundle install
-    - yarn install
+    - gem install rspec
+    - gem install rspec_junit_formatter
   build:
     commands:
     - echo Testing...
-    - rspec $TEST_SOURCE_DIRECTORY $REPORT_FILENAME
+    - rspec $TEST_SOURCE_DIRECTORY/* --format RspecJunitFormatter --out $TEST_REPORT_DIRECTORY/$REPORT_FILENAME
     - cd ..
     - echo Build started on `date`
     - echo Building the Docker image...
