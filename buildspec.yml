@@ -35,6 +35,7 @@ phases:
     - REPOSITORY_REACT=front-react-v4
     - TAG_REACT=1.0
     - SERVICE_REACT=front-react-v4
+    - BACKEND_DIRECTORY=backend
     - TEST_SOURCE_DIRECTORY=spec
     - REPORT_FILENAME=rspec_reports.xml
     - BUNDLER_VERSION=2.2.6
@@ -50,14 +51,15 @@ phases:
     - echo Logging in to Docker Hub...
     - echo $DOCKERHUB_TOKEN | docker login -u $DOCKERHUB_USER --password-stdin
     - echo Install rspec...
+    - cd $BACKEND_DIRECTORY
     - gem install bundler -v $BUNDLER_VERSION
     - gem install rspec
     - gem install rspec_junit_formatter
   build:
     commands:
     - echo Testing...
-    - cd backend
     - rspec $TEST_SOURCE_DIRECTORY $REPORT_FILENAME
+    - cd ..
     - echo Build started on `date`
     - echo Building the Docker image...
     - docker-compose build $REPOSITORY_API
