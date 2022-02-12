@@ -59,7 +59,8 @@ phases:
   build:
     commands:
     - echo Testing...
-    - bundle exec rspec $TEST_SOURCE_DIRECTORY/* --format RspecJunitFormatter --out $TEST_REPORT_DIRECTORY/$REPORT_FILENAME
+    - bundle exec rspec
+    - rspec $TEST_SOURCE_DIRECTORY/* --format RspecJunitFormatter --out $TEST_REPORT_DIRECTORY/$REPORT_FILENAME
     - cd ..
     - echo Build started on `date`
     - echo Building the Docker image...
@@ -79,7 +80,7 @@ reports:
   rspec_reports:
     files:
       - $REPORT_FILENAME
-    base-directory: $TEST_SOURCE_DIRECTORY
+    base-directory: $TEST_REPORT_DIRECTORY
     file-format: JUNITXML
 artifacts:
   files:
