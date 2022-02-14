@@ -7,7 +7,7 @@ default: &default
   timeout: 5000
   username: <%= ENV["MYSQL_USERNAME"] || "app" %>
   password: <%= ENV["MYSQL_PASSWORD"] || "password" %>
-  host: <%= ENV["MYSQL_HOST"] || "127.0.0.1" %>
+  host: <%= ENV["MYSQL_HOST"] || "localhost" %>
   port: <%= ENV["MYSQL_PORT"] || "3306" %>
 
 development:

@@ -56,9 +56,7 @@ phases:
     - gem install bundler -v $BUNDLER_VERSION
     - bundle install
     - yarn install
-    - bin/rails db:drop RAILS_ENV=test
-    - bin/rails db:create RAILS_ENV=test
-    - bin/rails db:migrate RAILS_ENV=test
+    - bin/rails db:reset RAILS_ENV=test
   build:
     commands:
     - echo Testing...
