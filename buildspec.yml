@@ -37,8 +37,8 @@ phases:
     - SERVICE_REACT=front-react-v4
     - BACKEND_DIRECTORY=backend
     - TEST_SOURCE_DIRECTORY=spec
-    - TEST_REPORT_DIRECTORY=tmp
-    - REPORT_FILENAME=rspec_reports.xml
+    - TEST_REPORT_DIRECTORY=reports
+    - REPORT_FILENAME=rspec-reports.xml
     - BUNDLER_VERSION=2.2.26
     - aws --version
     - AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
@@ -56,6 +56,8 @@ phases:
     - gem install bundler -v $BUNDLER_VERSION
     - bundle install
     - yarn install
+    - bin/rails db:drop RAILS_ENV=test
+    - bin/rails db:create RAILS_ENV=test
     - bin/rails db:migrate RAILS_ENV=test
   build:
     commands:
