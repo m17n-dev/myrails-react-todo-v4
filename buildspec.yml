@@ -64,7 +64,9 @@ phases:
     - gem install bundler -v $BUNDLER_VERSION
     - bundle install
     - yarn install
-    - bin/rails db:reset RAILS_ENV=test
+    - echo Trying to connect to RDB host $RDS_HOSTNAME:$RDS_PORT
+    - curl -v telnet://$RDS_HOSTNAME:$RDS_PORT
+    - bin/rails db:migrate RAILS_ENV=production_test
   build:
     commands:
     - echo Testing...
