@@ -55,6 +55,9 @@ data "aws_iam_policy_document" "codebuild" {
     resources = ["*"]
 
     actions = [
+      "ec2:DescribeSubnets",
+      "ec2:DescribeSecurityGroups",
+      "ec2:DescribeVpcs",
       "s3:PutObject",
       "s3:GetObject",
       "s3:GetObjectVersion",
