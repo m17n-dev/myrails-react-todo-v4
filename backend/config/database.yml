@@ -5,10 +5,10 @@ default: &default
   collation: utf8mb4_bin
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   timeout: 5000
-  username: <%= ENV["MYSQL_USERNAME"] || "app" %>
-  password: <%= ENV["MYSQL_PASSWORD"] || "password" %>
-  host: <%= ENV["MYSQL_HOST"] || "localhost" %>
-  port: <%= ENV["MYSQL_PORT"] || "3306" %>
+  username: <%= ENV['MYSQL_USERNAME'] || "app" %>
+  password: <%= ENV['MYSQL_PASSWORD'] || "password" %>
+  host: <%= ENV['MYSQL_HOST'] || "db" %>
+  port: <%= ENV['MYSQL_PORT'] || "3306" %>
 
 development:
   <<: *default
@@ -17,14 +17,11 @@ development:
 test:
   <<: *default
   database: appdb_test
-
-production_test:
-  <<: *default
-  database: appdb_test
-  username: <%= ENV['RDS_USERNAME'] %>
-  password: <%= ENV['RDS_PASSWORD'] %>
-  host: <%= ENV['RDS_HOSTNAME'] %>
-  port: <%= ENV['RDS_PORT'] %>
+  username: <%= ENV['RDS_USERNAME'] || "app" %>
+  password: <%= ENV['RDS_PASSWORD'] || "password" %>
+  host: <%= ENV['RDS_HOSTNAME'] || "db" %>
+  port: <%= ENV['RDS_PORT'] || "3306" %>
+  
 
 production:
   <<: *default

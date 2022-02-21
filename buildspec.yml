@@ -58,7 +58,7 @@ phases:
     - yarn install
     - echo Trying to connect to RDB host $RDS_HOSTNAME:$RDS_PORT
     - curl -v telnet://$RDS_HOSTNAME:$RDS_PORT
-    - bin/rails db:migrate RAILS_ENV=production_test
+    - bin/rails db:migrate RAILS_ENV=test
   build:
     commands:
     - echo Testing...
