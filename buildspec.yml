@@ -38,7 +38,7 @@ phases:
     - BACKEND_DIRECTORY=backend
     - TEST_SOURCE_DIRECTORY=spec
     - TEST_REPORT_DIRECTORY=reports
-    - REPORT_FILENAME=rspec-reports.xml
+    - TEST_REPORT_FILENAME=rspec-reports.xml
     - BUNDLER_VERSION=2.2.26
     - aws --version
     - AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
@@ -81,8 +81,8 @@ phases:
 reports:
   rspec_reports:
     files:
-      - $REPORT_FILENAME
-    base-directory: $TEST_REPORT_DIRECTORY
+      - $TEST_REPORT_FILENAME
+    base-directory: $BACKEND_DIRECTORY/$TEST_REPORT_DIRECTORY
     file-format: JUNITXML
 artifacts:
   files:
