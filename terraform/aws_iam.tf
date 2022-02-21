@@ -87,7 +87,7 @@ data "aws_iam_policy_document" "codebuild" {
       "codebuild:CreateReport",
       "codebuild:UpdateReport",
       "codebuild:BatchPutTestCases",
-      "codebuild:BatchPutCodeCoverages"
+      "codebuild:BatchPutCodeCoverages",
     ]
   }
 }
