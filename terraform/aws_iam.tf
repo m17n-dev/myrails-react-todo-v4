@@ -83,6 +83,11 @@ data "aws_iam_policy_document" "codebuild" {
       "ecr:PutImage",
       "ssm:GetParameters",
       "kms:Decrypt",
+      "codebuild:CreateReportGroup",
+      "codebuild:CreateReport",
+      "codebuild:UpdateReport",
+      "codebuild:BatchPutTestCases",
+      "codebuild:BatchPutCodeCoverages"
     ]
   }
 }
