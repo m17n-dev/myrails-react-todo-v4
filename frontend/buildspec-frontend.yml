@@ -2,6 +2,8 @@ version: 0.2
 
 env:
   parameter-store:
+    DOCKERHUB_USER: /rails/react/v4/CodeBuild/dockerLoginUser
+    DOCKERHUB_TOKEN: /rails/react/v4/CodeBuild/dockerAccessToken
     DEV_FRONT_DOMAIN: /rails/react/v4/development/front/domain
     PROD_FRONT_DOMAIN: /rails/react/v4/production/front/domain
   variables:
