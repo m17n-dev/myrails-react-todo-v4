@@ -37,8 +37,8 @@ resource "aws_codebuild_project" "rails_api_v4" {
 
   source {
     type      = "CODEPIPELINE"
-    location  = "myrails-react-todo-v4/backend"
-    buildspec = "buildspec-backend.yml"
+    location  = "myrails-react-todo-v4"
+    buildspec = "myrails-react-todo-v4/backend/buildspec-backend.yml"
   }
 
   artifacts {
@@ -70,8 +70,8 @@ resource "aws_codebuild_project" "front_react_v4" {
 
   source {
     type      = "CODEPIPELINE"
-    location  = "myrails-react-todo-v4/frontend"
-    buildspec = "buildspec-frontend.yml"
+    location  = "myrails-react-todo-v4"
+    buildspec = "myrails-react-todo-v4/frontend/buildspec-frontend.yml"
   }
 
   artifacts {
