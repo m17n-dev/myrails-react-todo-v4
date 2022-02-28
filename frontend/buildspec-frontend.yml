@@ -1,0 +1,45 @@
+version: 0.2
+
+env:
+  parameter-store:
+    DEV_FRONT_DOMAIN: /rails/react/v4/development/front/domain
+    PROD_FRONT_DOMAIN: /rails/react/v4/production/front/domain
+  variables:
+    COMPOSE_DOCKER_CLI_BUILD: 1
+    DOCKER_BUILDKIT: 1
+
+phases:
+  install:
+    runtime-versions:
+      docker: 19
+      ruby: 2.6
+  pre_build:
+    commands:
+    - REPOSITORY_REACT=front-react-v4
+    - TAG_REACT=1.0
+    - SERVICE_REACT=front-react-v4
+    - aws --version
+    - AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
+    - echo $AWS_ACCOUNT_ID
+    - echo Logging in to Amazon ECR...
+    - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
+    - REPOSITORY_URI_REACT=$(aws ecr describe-repositories --repository-names $REPOSITORY_REACT --output text --query "repositories[0].repositoryUri")
+    - IMAGE_REACT=$REPOSITORY_URI_REACT:latest
+    - echo Logging in to Docker Hub...
+    - echo $DOCKERHUB_TOKEN | docker login -u $DOCKERHUB_USER --password-stdin
+    - yarn install
+  build:
+    commands:
+    - echo Build started on `date`
+    - echo Building the Docker image...
+    - docker-compose build $SERVICE_REACT
+    - docker tag $REPOSITORY_REACT:$TAG_REACT $IMAGE_REACT
+  post_build:
+    commands:
+    - echo Build completed on `date`
+    - echo Pushing the Docker images to Amazon ECR...
+    - docker push $IMAGE_REACT
+    - printf '[{"name":"%s","imageUri":"%s"}]' $REPOSITORY_REACT $IMAGE_REACT > frontend-imagedefinitions.json
+artifacts:
+  files:
+    - frontend-imagedefinitions.json

@@ -38,6 +38,8 @@ services:
       context: ./backend/
       dockerfile: Dockerfile-buildkit
     image: rails-api-v4:1.0
+    networks:
+      - default
     environment:
       MYSQL_USERNAME: app
       MYSQL_PASSWORD: password
@@ -72,8 +74,8 @@ services:
       context: ./frontend/
       dockerfile: Dockerfile-prod
     image: front-react-v4:1.0
-    depends_on:
-      - rails-api-v4
+    networks:
+      - default
     ports:
       - "80:80"
 

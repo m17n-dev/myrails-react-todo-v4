@@ -1,0 +1,78 @@
+version: 0.2
+
+env:
+  parameter-store:
+    RAILS_ENV: /rails/react/v4/rails/environment/name
+    RDS_DB_NAME: /rails/react/v4/production/database/name
+    RDS_USERNAME: /rails/react/v4/production/database/username
+    RDS_PASSWORD: /rails/react/v4/production/database/password
+    RDS_HOSTNAME: /rails/react/v4/production/database/hostname
+    RDS_PORT: /rails/react/v4/production/database/port
+    DOCKERHUB_USER: /rails/react/v4/CodeBuild/dockerLoginUser
+    DOCKERHUB_TOKEN: /rails/react/v4/CodeBuild/dockerAccessToken
+    SMTP_ADDRESS: /rails/react/v4/production/actionMailer/smtpSettings/address
+    SMTP_PORT: /rails/react/v4/production/actionMailer/smtpSettings/port
+    EMAIL_ADDRESS: /rails/react/v4/production/actionMailer/smtpSettings/userName
+    EMAIL_PASSWORD: /rails/react/v4/production/actionMailer/smtpSettings/password
+    DEV_API_DOMAIN: /rails/react/v4/development/api/domain
+    PROD_API_DOMAIN: /rails/react/v4/production/api/domain
+  variables:
+    COMPOSE_DOCKER_CLI_BUILD: 1
+    DOCKER_BUILDKIT: 1
+
+phases:
+  install:
+    runtime-versions:
+      docker: 19
+      ruby: 2.6
+  pre_build:
+    commands:
+    - REPOSITORY_API=rails-api-v4
+    - TAG_API=1.0
+    - SERVICE_API=rails-api-v4
+    - BACKEND_DIRECTORY=backend
+    - TEST_SOURCE_DIRECTORY=spec
+    - TEST_REPORT_DIRECTORY=reports
+    - TEST_REPORT_FILENAME=rspec-reports.xml
+    - BUNDLER_VERSION=2.2.26
+    - aws --version
+    - AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
+    - echo $AWS_ACCOUNT_ID
+    - echo Logging in to Amazon ECR...
+    - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
+    - REPOSITORY_URI_API=$(aws ecr describe-repositories --repository-names $REPOSITORY_API --output text --query "repositories[0].repositoryUri")
+    - IMAGE_API=$REPOSITORY_URI_API:latest
+    - echo Logging in to Docker Hub...
+    - echo $DOCKERHUB_TOKEN | docker login -u $DOCKERHUB_USER --password-stdin
+    - echo Bundle install...
+    - cd $BACKEND_DIRECTORY
+    - gem install bundler -v $BUNDLER_VERSION
+    - bundle install
+    - yarn install
+    - echo Trying to connect to RDB host $RDS_HOSTNAME:$RDS_PORT
+    - curl -v telnet://$RDS_HOSTNAME:$RDS_PORT
+    - bin/rails db:migrate RAILS_ENV=test
+  build:
+    commands:
+    - echo Testing...
+    - bin/rspec $TEST_SOURCE_DIRECTORY/* --format RspecJunitFormatter --out $TEST_REPORT_DIRECTORY/$TEST_REPORT_FILENAME
+    - cd ..
+    - echo Build started on `date`
+    - echo Building the Docker image...
+    - docker-compose build $REPOSITORY_API
+    - docker tag $REPOSITORY_API:$TAG_API $IMAGE_API
+  post_build:
+    commands:
+    - echo Build completed on `date`
+    - echo Pushing the Docker images to Amazon ECR...
+    - docker push $IMAGE_AP
+    - printf '[{"name":"%s","imageUri":"%s"}]' $REPOSITORY_API $IMAGE_API > backend-imagedefinitions.json
+reports:
+  rspec_reports:
+    files:
+      - $TEST_REPORT_FILENAME
+    base-directory: $BACKEND_DIRECTORY/$TEST_REPORT_DIRECTORY
+    file-format: JUNITXML
+artifacts:
+  files:
+    - backend-imagedefinitions.json

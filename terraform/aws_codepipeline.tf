@@ -1,5 +1,5 @@
 resource "aws_codepipeline" "rails_api" {
-  name     ="rails-api-v4"
+  name     = "rails-api-v4"
   role_arn = module.codepipeline_role.iam_role_arn
 
   stage {
@@ -35,7 +35,8 @@ resource "aws_codepipeline" "rails_api" {
       output_artifacts = ["Build"]
 
       configuration = {
-        ProjectName = aws_codebuild_project.rails_react_v4.id
+        # ProjectName = aws_codebuild_project.rails_react_v4.id
+        ProjectName = aws_codebuild_project.rails_api_v4.id
       }
     }
   }
@@ -66,7 +67,7 @@ resource "aws_codepipeline" "rails_api" {
 }
 
 resource "aws_codepipeline_webhook" "rails_api" {
-  name            ="rails-api-v4"
+  name            = "rails-api-v4"
   target_pipeline = aws_codepipeline.rails_api.name
   target_action   = "Source"
   authentication  = "GITHUB_HMAC"
@@ -82,7 +83,7 @@ resource "aws_codepipeline_webhook" "rails_api" {
 }
 
 resource "aws_codepipeline" "front_react" {
-  name     ="front-react-v4"
+  name     = "front-react-v4"
   role_arn = module.codepipeline_role.iam_role_arn
 
   stage {
@@ -118,7 +119,8 @@ resource "aws_codepipeline" "front_react" {
       output_artifacts = ["Build"]
 
       configuration = {
-        ProjectName = aws_codebuild_project.rails_react_v4.id
+        # ProjectName = aws_codebuild_project.rails_react_v4.id
+        ProjectName = aws_codebuild_project.front_react_v4.id
       }
     }
   }
@@ -149,7 +151,7 @@ resource "aws_codepipeline" "front_react" {
 }
 
 resource "aws_codepipeline_webhook" "front_react" {
-  name            ="front-react-v4"
+  name            = "front-react-v4"
   target_pipeline = aws_codepipeline.front_react.name
   target_action   = "Source"
   authentication  = "GITHUB_HMAC"
