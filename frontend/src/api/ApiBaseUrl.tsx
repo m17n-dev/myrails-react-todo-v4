@@ -8,11 +8,11 @@ const base_url = process.env.NODE_ENV === 'production'
 
 const ApiBaseUrl = axios.create({
     baseURL: base_url,
-    responseType: 'json',
-    headers: {
-        'Content-Type': 'application/json;charset=utf-8',
-        'Access-Control-Allow-Origin': '*'
-    },
+    // responseType: 'json',
+    // headers: {
+    //     'Content-Type': 'application/json;charset=utf-8',
+    //     'Access-Control-Allow-Origin': '*'
+    // },
 })
 
 export default ApiBaseUrl
