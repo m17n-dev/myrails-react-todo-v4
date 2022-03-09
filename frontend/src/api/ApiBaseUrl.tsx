@@ -11,7 +11,7 @@ const ApiBaseUrl = axios.create({
     responseType: 'json',
     headers: {
         'Content-Type': 'application/json;charset=utf-8',
-        'Access-Control-Allow-Origin': '*'
+        'Access-Control-Allow-Origin': base_url
     },
     withCredentials: true
 })
