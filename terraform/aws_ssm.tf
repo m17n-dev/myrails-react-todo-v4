@@ -140,7 +140,7 @@ resource "aws_ssm_parameter" "rails_react_v4_production_front_domain" {
 
 resource "aws_ssm_parameter" "rails_react_v4_production_api_domain" {
   name        = "/rails/react/v4/production/api/domain"
-  value       = "schoolmail.jp"
+  value       = "schoo.org"
   type        = "String"
   description = "production mode api domain"
 }

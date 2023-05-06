@@ -27,7 +27,7 @@ resource "aws_route53_record" "front_react_certificate" {
 }
 
 resource "aws_route53_zone" "rails_api" {
-  name = "schoolmail.jp"
+  name = "schoo.org"
 }
 
 resource "aws_route53_record" "rails_api" {
