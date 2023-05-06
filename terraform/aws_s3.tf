@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "private" {
-  bucket = "private-pragmatic-terraform-2023050602"
+  bucket = "private-pragmatic-terraform-2023050701"
 
   versioning {
     enabled = true
@@ -23,7 +23,7 @@ resource "aws_s3_bucket_public_access_block" "private" {
 }
 
 resource "aws_s3_bucket" "public" {
-  bucket = "public-pragmatic-terraform-2023050602"
+  bucket = "public-pragmatic-terraform-2023050701"
   acl    = "public-read"
 
   cors_rule {
@@ -35,7 +35,7 @@ resource "aws_s3_bucket" "public" {
 }
 
 resource "aws_s3_bucket" "alb_front_react_log" {
-  bucket = "alb-front-react-v4-log-pragmatic-terraform-2021020801"
+  bucket = "alb-front-react-v4-log-pragmatic-terraform-2023050701"
 
   lifecycle_rule {
     enabled = true
@@ -65,7 +65,7 @@ data "aws_iam_policy_document" "alb_front_react_log" {
 }
 
 resource "aws_s3_bucket" "alb_rails_api_log" {
-  bucket = "alb-rails-api-v4-log-pragmatic-terraform-2023050602"
+  bucket = "alb-rails-api-v4-log-pragmatic-terraform-2023050701"
 
   lifecycle_rule {
     enabled = true
@@ -95,7 +95,7 @@ data "aws_iam_policy_document" "alb_rails_api_log" {
 }
 
 resource "aws_s3_bucket" "artifact" {
-  bucket = "artifact-pragmatic-terraform-2023050602"
+  bucket = "artifact-pragmatic-terraform-2023050701"
 
   lifecycle_rule {
     enabled = true
@@ -107,7 +107,7 @@ resource "aws_s3_bucket" "artifact" {
 }
 
 resource "aws_s3_bucket" "operation" {
-  bucket = "operation-pragmatic-terraform-2023050602"
+  bucket = "operation-pragmatic-terraform-2023050701"
 
   lifecycle_rule {
     enabled = true
@@ -119,7 +119,7 @@ resource "aws_s3_bucket" "operation" {
 }
 
 resource "aws_s3_bucket" "cloudwatch_logs" {
-  bucket = "cloudwatch-logs-pragmatic-terraform-2023050602"
+  bucket = "cloudwatch-logs-pragmatic-terraform-2023050701"
 
   lifecycle_rule {
     enabled = true
