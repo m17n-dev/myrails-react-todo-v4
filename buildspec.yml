@@ -39,6 +39,7 @@ phases:
     - TEST_SOURCE_DIRECTORY=spec
     - TEST_REPORT_DIRECTORY=reports
     - TEST_REPORT_FILENAME=rspec-reports.xml
+    - RUBY_VERSION=2.6.6
     - BUNDLER_VERSION=2.2.26
     - aws --version
     - AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
@@ -55,9 +56,12 @@ phases:
     - cd $BACKEND_DIRECTORY
     - rbenv install --list
     - rbenv versions
-    - rbenv install $BUNDLER_VERSION
-    - rbenv local $BUNDLER_VERSION
+    - rbenv install $RUBY_VERSION
+    - rbenv rehash
+    - rbenv global $RUBY_VERSION
+    - rbenv versions
     - gem install bundler -v $BUNDLER_VERSION
+    - bundler -v
     - bundle install
     - yarn install
     - echo Trying to connect to RDB host $RDS_HOSTNAME:$RDS_PORT
