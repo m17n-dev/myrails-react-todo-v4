@@ -1,3 +1,7 @@
+provider "github" {
+  owner = "m17n-dev"
+}
+
 resource "github_repository_webhook" "rails_api" {
   repository = "myrails-react-todo-v4"
 
