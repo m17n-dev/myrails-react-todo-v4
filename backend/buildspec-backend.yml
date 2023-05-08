@@ -46,6 +46,10 @@ phases:
     - echo $DOCKERHUB_TOKEN | docker login -u $DOCKERHUB_USER --password-stdin
     - echo Bundle install...
     - cd $BACKEND_DIRECTORY
+    - rbenv install --list
+    - rbenv versions
+    - rbenv install $BUNDLER_VERSION
+    - rbenv local $BUNDLER_VERSION
     - gem install bundler -v $BUNDLER_VERSION
     - bundle install
     - yarn install
