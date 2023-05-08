@@ -22,17 +22,17 @@ resource "aws_s3_bucket_public_access_block" "private" {
   restrict_public_buckets = true
 }
 
-resource "aws_s3_bucket" "public" {
-  bucket = "public-pragmatic-terraform-2023050701"
-  acl    = "public-read"
+# resource "aws_s3_bucket" "public" {
+#   bucket = "public-pragmatic-terraform-2023050701"
+#   acl    = "public-read"
 
-  cors_rule {
-    allowed_origins = ["https://m17n.dev"]
-    allowed_methods = ["GET"]
-    allowed_headers = ["*"]
-    max_age_seconds = 3000
-  }
-}
+#   cors_rule {
+#     allowed_origins = ["https://m17n.dev"]
+#     allowed_methods = ["GET"]
+#     allowed_headers = ["*"]
+#     max_age_seconds = 3000
+#   }
+# }
 
 resource "aws_s3_bucket" "alb_front_react_log" {
   bucket = "alb-front-react-v4-log-pragmatic-terraform-2023050701"
