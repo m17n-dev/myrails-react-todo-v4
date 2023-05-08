@@ -26,7 +26,14 @@ In the development environment, command as follows. Start docker on each of the 
 # Backend - Development Case
 $ cd myrails-react-todo-v4
 $ docker compose run --service-ports rails-api-v4-dev
+/app# rbenv install --list
+/app# rbenv versions
+/app# rbenv install 2.6.6
+/app# rbenv rehash
+/app# rbenv global 2.6.6
+/app# rbenv versions
 /app# gem install bundler -v 2.2.26
+/app# bundler -v
 /app# bundle install
 /app# yarn install
 /app# bin/rails db:migrate
