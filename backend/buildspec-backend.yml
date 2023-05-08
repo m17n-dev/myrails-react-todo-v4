@@ -75,12 +75,12 @@ phases:
     - echo Pushing the Docker images to Amazon ECR...
     - docker push $IMAGE_API
     - printf '[{"name":"%s","imageUri":"%s"}]' $REPOSITORY_API $IMAGE_API > backend-imagedefinitions.json
-reports:
-  rspec_reports:
-    files:
-      - $TEST_REPORT_FILENAME
-    base-directory: $BACKEND_DIRECTORY/$TEST_REPORT_DIRECTORY
-    file-format: JUNITXML
+# reports:
+#   rspec_reports:
+#     files:
+#       - $TEST_REPORT_FILENAME
+#     base-directory: $BACKEND_DIRECTORY/$TEST_REPORT_DIRECTORY
+#     file-format: JUNITXML
 artifacts:
   files:
     - backend-imagedefinitions.json
