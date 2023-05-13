@@ -66,11 +66,11 @@ phases:
     - yarn install
     - echo Trying to connect to RDB host $RDS_HOSTNAME:$RDS_PORT
     - curl -v telnet://$RDS_HOSTNAME:$RDS_PORT
-    # - bin/rails db:migrate RAILS_ENV=test
+    - bin/rails db:migrate RAILS_ENV=test
   build:
     commands:
-    # - echo Testing...
-    # - bin/rspec $TEST_SOURCE_DIRECTORY/* --format RspecJunitFormatter --out $TEST_REPORT_DIRECTORY/$TEST_REPORT_FILENAME
+    - echo Testing...
+    - bin/rspec $TEST_SOURCE_DIRECTORY/* --format RspecJunitFormatter --out $TEST_REPORT_DIRECTORY/$TEST_REPORT_FILENAME
     - cd ..
     - echo Build started on `date`
     - echo Building the Docker image...
@@ -86,12 +86,12 @@ phases:
     - docker push $IMAGE_REACT
     - printf '[{"name":"%s","imageUri":"%s"}]' $REPOSITORY_API $IMAGE_API > backend-imagedefinitions.json
     - printf '[{"name":"%s","imageUri":"%s"}]' $REPOSITORY_REACT $IMAGE_REACT > frontend-imagedefinitions.json
-# reports:
-#   rspec_reports:
-#     files:
-#       - $TEST_REPORT_FILENAME
-#     base-directory: $BACKEND_DIRECTORY/$TEST_REPORT_DIRECTORY
-#     file-format: JUNITXML
+reports:
+  rspec_reports:
+    files:
+      - $TEST_REPORT_FILENAME
+    base-directory: $BACKEND_DIRECTORY/$TEST_REPORT_DIRECTORY
+    file-format: JUNITXML
 artifacts:
   files:
     - backend-imagedefinitions.json
