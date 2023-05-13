@@ -1,5 +1,5 @@
 resource "aws_kinesis_firehose_delivery_stream" "rails_react_v4" {
-  name        ="rails-react-v4"
+  name        ="rails-react-v4-1"
   destination = "s3"
 
   s3_configuration {

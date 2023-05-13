@@ -11,7 +11,7 @@
         "options": {
           "awslogs-region": "ap-northeast-1",
           "awslogs-stream-prefix": "front-react-v4",
-          "awslogs-group": "/ecs/rails_react_v4"
+          "awslogs-group": "/ecs/rails/react/v4"
         }
       },
       "portMappings": [

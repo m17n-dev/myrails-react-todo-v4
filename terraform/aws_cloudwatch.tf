@@ -1,10 +1,10 @@
 resource "aws_cloudwatch_log_group" "for_ecs" {
-  name              = "/ecs/rails_react_v4"
+  name              = "/ecs/rails/react/v4"
   retention_in_days = 180
 }
 
 resource "aws_cloudwatch_log_group" "for_ecs_scheduled_tasks" {
-  name              = "/ecs-scheduled-tasks/rails_react_v4"
+  name              = "/ecs-scheduled-tasks/rails/react/v4"
   retention_in_days = 180
 }
 
@@ -34,7 +34,7 @@ resource "aws_cloudwatch_event_target" "rails_react_v4_batch" {
 }
 
 resource "aws_cloudwatch_log_group" "operation_rails_react_v4" {
-  name              = "/operation/rails/react/v4"
+  name              = "/operation/rails/react/v4/1"
   retention_in_days = 180
 }
 
